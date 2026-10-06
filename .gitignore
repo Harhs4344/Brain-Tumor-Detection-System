@@ -5,7 +5,8 @@ static/uploads/*
 .DS_Store
 venv/
 .venv/
-models/*.h5
+models/final_vgg16_model.h5
+models/final_resnet50_model.h5
+models/final_custom_cnn_model.h5
 models/*.pkl
 dataset/
-portfolio/
