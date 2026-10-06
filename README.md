@@ -1,123 +1,98 @@
-# Brain Tumor Detection System
+# Brain Tumor Detection System 🧠🔬
 
-![Brain Tumor Detection](prediction_examples.png)
+An end-to-end Deep Learning & Computer Vision application for automated classification of Brain Tumor MRI scans. Built using **TensorFlow/Keras**, **OpenCV**, and **Flask**.
 
-## Overview
+---
 
-This web application uses deep learning models to detect brain tumors from MRI images. The system provides a user-friendly interface for uploading MRI scans and receiving instant predictions with confidence scores and visualizations.
+## 🌟 Key Features
 
-## Features
+- **Multi-Model Deep Learning Pipeline**: Evaluates and compares multiple neural network architectures:
+  - **VGG16 Transfer Learning** (Best Performing: ~84.3% Accuracy)
+  - **MobileNetV2** (Lightweight Architecture: ~80.4% Accuracy)
+  - **ResNet50** (Residual Network: ~78.4% Accuracy)
+  - **Custom Convolutional Neural Network (CNN)** (~66.7% Accuracy)
+- **Automated Image Preprocessing**: Normalization, resizing to 224x224, and color space transformations via OpenCV.
+- **Interactive Flask Web Application**: User-friendly web interface allowing real-time MRI upload, diagnosis, confidence score display, and model selection.
+- **Model Evaluation & Performance Metrics**: Detailed visualizations including Confusion Matrices, ROC Curves, and Training History charts.
 
-- **Multiple AI Models**: Choose from VGG16, ResNet50, MobileNetV2, and custom CNN models
-- **High Accuracy**: Up to 84% accuracy with the VGG16 transfer learning model
-- **Interactive UI**: Modern, responsive interface with intuitive controls
-- **Instant Results**: Fast predictions with confidence scores
-- **Detailed Visualizations**: Performance metrics and model comparisons
-- **Secure Processing**: Images are processed securely and not stored permanently
+---
 
-## Models
+## 📊 Model Comparison & Performance
 
-| Model | Description | Accuracy |
-|-------|-------------|----------|
-| VGG16 | Deep convolutional network with transfer learning | 84.31% |
-| ResNet50 | Residual network with 50 layers | 78.43% |
-| MobileNetV2 | Lightweight efficient neural network | 80.39% |
-| Custom CNN | Custom built convolutional neural network | 66.67% |
+| Model Architecture | Type | Performance Accuracy | Description |
+| :--- | :--- | :--- | :--- |
+| **VGG16 Transfer Learning** | Transfer Learning | **84.31%** | Deep CNN pre-trained on ImageNet fine-tuned for MRI scans |
+| **MobileNetV2** | Transfer Learning | **80.39%** | Efficient lightweight mobile architecture |
+| **ResNet50** | Transfer Learning | **78.43%** | Deep residual network architecture |
+| **Custom CNN** | Custom Deep Architecture | **66.67%** | Multi-layer custom convolutional network |
 
-## Dataset
+---
 
-The models were trained on a dataset of brain MRI images with two classes:
-- **Yes**: Images with brain tumors
-- **No**: Images without brain tumors
+## 📁 Repository Structure
 
-## Screenshots
-
-### Home Page
-![Home Page](dataset/yes/Y1.jpg)
-
-### Prediction Page
-![Prediction Page](dataset/no/N1.JPG)
-
-### Visualization Page
-![Visualization Page](roc_curves.png)
-
-## Installation
-
-1. Clone the repository:
-```bash
-Extract the provided zip file or clone the repository:
-cd brain-tumor-detection
+```
+├── app.py                      # Core Flask Application & API Endpoints
+├── requirements.txt            # Python Dependencies
+├── commands.txt                # Quick launch instructions
+├── Brain_Tumor_Detection_Complete.ipynb # Complete Model Training Notebook
+├── models/
+│   └── model_comparison.csv    # Evaluated Model Accuracy Metrics
+├── templates/
+│   ├── base.html              # Base layout template
+│   ├── index.html             # Homepage & upload portal
+│   ├── predict.html           # Prediction result view
+│   ├── visualization.html     # Performance metrics & comparison charts
+│   └── about.html             # Project details
+├── static/
+│   ├── css/style.css          # Application UI Styles
+│   ├── js/main.js             # Client-side interactions
+│   └── uploads/               # Temporary MRI uploads
+├── confusion_matrices.png      # Evaluated confusion matrices
+├── model_comparison_bars.png   # Model accuracy bar chart
+├── roc_curves.png              # Receiver Operating Characteristic curves
+└── training_history_loss.png   # Training vs Validation loss history
 ```
 
-because of the large file we are not able to upload the models folder in the repository. Please download the models folder from the following link:
-[Download Models](https://drive.google.com/file/d/1rSMHBdHM0pLIrQiOvGFJ9wRISCleqyQv/view?usp=sharing)
+---
 
-After downloading, extract the models folder and place it in the root directory of the project.
+## 🚀 Getting Started
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+### Prerequisites
 
-3. Run the application:
-```bash
-python app.py
-```
+Ensure Python 3.10 to 3.13 is installed on your system.
 
-4. Access the application at: http://localhost:8080
+### Installation
 
-## Usage
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Harhs4344/Brain-Tumor-Detection-System.git
+   cd Brain-Tumor-Detection-System
+   ```
 
-1. Navigate to the "Predict" page
-2. Upload a brain MRI image (JPG, JPEG, or PNG format)
-3. Select an AI model (VGG16 recommended for best accuracy)
-4. Click "Analyze" to get the prediction result
-5. View the prediction with confidence score and visualization
+2. **Install requirements:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Technical Details
+3. **Run the Flask application:**
+   ```bash
+   python app.py
+   ```
 
-- **Backend**: Flask (Python)
-- **Frontend**: HTML, CSS, JavaScript, Bootstrap
-- **Deep Learning**: TensorFlow, Keras
-- **Data Visualization**: Chart.js, Matplotlib
+4. **Access the application:**
+   Open your browser and navigate to `http://localhost:5000` (or `http://localhost:8080`).
 
-## Model Training
+---
 
-The models were trained using the following approach:
-- Data split: 64% training, 16% validation, 20% testing
-- Data augmentation: Rotation, zoom, flip, shift
-- Transfer learning: Pre-trained weights from ImageNet
-- Fine-tuning: Custom top layers for binary classification
+## 💻 Web Application Usage
 
-## Performance Metrics
+1. Open the homepage at `http://localhost:5000`.
+2. Click **Upload MRI Scan** and select a PNG/JPG/JPEG Brain MRI image.
+3. Select your preferred Deep Learning model (e.g. VGG16 Transfer Learning).
+4. View the diagnostic prediction, confidence probability percentage, and model evaluation summary.
 
-The models were evaluated using:
-- Accuracy
-- Precision
-- Recall
-- F1-Score
-- ROC Curves
+---
 
-## Future Improvements
+## 📜 License & Citation
 
-- Integration with DICOM medical imaging format
-- 3D MRI scan support
-- Segmentation of tumor regions
-- Deployment as a mobile application
-- Integration with hospital systems
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- Dataset provided by Kaggle
-- Inspired by research in medical image analysis
-- Special thanks to the open-source community for tools and libraries
-
-## Contact
-
-For questions or feedback, please contact:
-- Email: your.email@example.com
-- GitHub: [Your GitHub Profile](https://github.com/yourusername)
+Developed for AI & Data Science research and educational evaluation.
