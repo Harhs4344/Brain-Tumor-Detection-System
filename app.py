@@ -158,6 +158,28 @@ def _load_mobilenet_custom(h5_path):
                     model.get_layer(layer_name).set_weights([g['kernel'][()], g['bias'][()]])
     return model
 
+import urllib.request
+
+MODEL_DOWNLOAD_URLS = {
+    'final_vgg16_model.h5': 'https://github.com/Harhs4344/Brain-Tumor-Detection-System/releases/download/v1.0.0/final_vgg16_model.h5',
+    'final_resnet50_model.h5': 'https://github.com/Harhs4344/Brain-Tumor-Detection-System/releases/download/v1.0.0/final_resnet50_model.h5',
+    'final_mobilenet_model.h5': 'https://github.com/Harhs4344/Brain-Tumor-Detection-System/releases/download/v1.0.0/final_mobilenet_model.h5',
+    'final_custom_cnn_model.h5': 'https://github.com/Harhs4344/Brain-Tumor-Detection-System/releases/download/v1.0.0/final_custom_cnn_model.h5',
+}
+
+def ensure_model_file(file_name):
+    os.makedirs('models', exist_ok=True)
+    model_path = os.path.join('models', file_name)
+    if not os.path.exists(model_path) and file_name in MODEL_DOWNLOAD_URLS:
+        print(f"Downloading {file_name} for cloud server...")
+        try:
+            url = MODEL_DOWNLOAD_URLS[file_name]
+            urllib.request.urlretrieve(url, model_path)
+            print(f"[OK] Downloaded {file_name}")
+        except Exception as e:
+            print(f"[WARN] Failed to download {file_name}: {e}")
+    return model_path
+
 def load_models():
     """Load all trained models"""
     global MODELS, MODEL_COMPARISON
@@ -170,7 +192,7 @@ def load_models():
             print("[OK] Model comparison data loaded")
         
         for model_name, info in MODEL_INFO.items():
-            model_path = f'models/{info["file"]}'
+            model_path = ensure_model_file(info["file"])
             if os.path.exists(model_path):
                 try:
                     if model_name == 'VGG16':
