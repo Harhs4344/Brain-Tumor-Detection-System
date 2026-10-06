@@ -1,0 +1,341 @@
+{% extends "base.html" %}
+
+{% block title %}About - Brain Tumor Detection{% endblock %}
+
+{% block content %}
+<!-- About Hero -->
+<section class="about-hero py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row align-items-center py-5">
+            <div class="col-lg-6 text-white">
+                <h1 class="display-4 fw-bold mb-4">About Our Project</h1>
+                <p class="lead">
+                    Advanced AI-powered system for detecting brain tumors from MRI images using state-of-the-art deep learning models.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <i class="fas fa-brain fa-10x text-white opacity-75"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Overview -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="about-card">
+                    <h2 class="mb-4"><i class="fas fa-info-circle text-primary me-2"></i>Project Overview</h2>
+                    <p class="lead">
+                        This Brain Tumor Detection system leverages cutting-edge deep learning technology to analyze MRI brain scans 
+                        and detect the presence of tumors with high accuracy.
+                    </p>
+                    <p>
+                        Our system uses multiple pre-trained convolutional neural networks (CNNs) including VGG16, ResNet50, 
+                        MobileNetV2, and custom-built architectures. These models have been trained on a comprehensive dataset 
+                        of brain MRI images to achieve reliable detection results.
+                    </p>
+                    
+                    <h3 class="mt-5 mb-3"><i class="fas fa-bullseye text-primary me-2"></i>Key Objectives</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Early Detection:</strong> Help medical professionals identify brain tumors at early stages
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>High Accuracy:</strong> Achieve reliable predictions with up to 84% accuracy
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Fast Analysis:</strong> Provide instant results for quick medical decision-making
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Easy to Use:</strong> Simple interface for uploading and analyzing MRI images
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="about-card bg-light">
+                    <h4 class="mb-4"><i class="fas fa-chart-line text-primary me-2"></i>Project Statistics</h4>
+                    <div class="mb-4">
+                        <h2 class="text-primary mb-0">4</h2>
+                        <p class="text-muted mb-0">AI Models Trained</p>
+                    </div>
+                    <hr>
+                    <div class="mb-4">
+                        <h2 class="text-primary mb-0">253</h2>
+                        <p class="text-muted mb-0">MRI Images Analyzed</p>
+                    </div>
+                    <hr>
+                    <div class="mb-4">
+                        <h2 class="text-primary mb-0">84.31%</h2>
+                        <p class="text-muted mb-0">Best Model Accuracy</p>
+                    </div>
+                    <hr>
+                    <div class="mb-4">
+                        <h2 class="text-primary mb-0">96.77%</h2>
+                        <p class="text-muted mb-0">Recall Score</p>
+                    </div>
+                </div>
+                
+                <div class="about-card mt-4">
+                    <h4 class="mb-3"><i class="fas fa-code text-primary me-2"></i>Technologies Used</h4>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-primary">TensorFlow</span>
+                        <span class="badge bg-primary">Keras</span>
+                        <span class="badge bg-success">Flask</span>
+                        <span class="badge bg-info">OpenCV</span>
+                        <span class="badge bg-warning text-dark">NumPy</span>
+                        <span class="badge bg-danger">Python</span>
+                        <span class="badge bg-secondary">Bootstrap</span>
+                        <span class="badge bg-dark">JavaScript</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Models Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Our AI Models</h2>
+            <p class="lead text-muted">State-of-the-art deep learning architectures</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="about-card text-center">
+                    <div class="model-icon mb-3">
+                        <i class="fas fa-brain fa-3x text-primary"></i>
+                    </div>
+                    <h4>VGG16</h4>
+                    <p class="text-muted small">Transfer Learning Model</p>
+                    <div class="progress mb-2" style="height: 25px;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 84.31%">
+                            84.31%
+                        </div>
+                    </div>
+                    <p class="mb-0 small"><strong>Best Performance</strong></p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="about-card text-center">
+                    <div class="model-icon mb-3">
+                        <i class="fas fa-network-wired fa-3x text-info"></i>
+                    </div>
+                    <h4>ResNet50</h4>
+                    <p class="text-muted small">Residual Network</p>
+                    <div class="progress mb-2" style="height: 25px;">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 78.43%">
+                            78.43%
+                        </div>
+                    </div>
+                    <p class="mb-0 small"><strong>Deep Architecture</strong></p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="about-card text-center">
+                    <div class="model-icon mb-3">
+                        <i class="fas fa-mobile-alt fa-3x text-warning"></i>
+                    </div>
+                    <h4>MobileNetV2</h4>
+                    <p class="text-muted small">Lightweight Model</p>
+                    <div class="progress mb-2" style="height: 25px;">
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 80.39%">
+                            80.39%
+                        </div>
+                    </div>
+                    <p class="mb-0 small"><strong>Fast Inference</strong></p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="about-card text-center">
+                    <div class="model-icon mb-3">
+                        <i class="fas fa-project-diagram fa-3x text-danger"></i>
+                    </div>
+                    <h4>Custom CNN</h4>
+                    <p class="text-muted small">Custom Architecture</p>
+                    <div class="progress mb-2" style="height: 25px;">
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 66.67%">
+                            66.67%
+                        </div>
+                    </div>
+                    <p class="mb-0 small"><strong>Baseline Model</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">How It Works</h2>
+            <p class="lead text-muted">Understanding our AI-powered detection process</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="about-card">
+                    <div class="text-center mb-3">
+                        <div class="step-number">1</div>
+                    </div>
+                    <h4 class="text-center">Image Preprocessing</h4>
+                    <p class="text-muted">
+                        The uploaded MRI image is preprocessed by resizing to 224x224 pixels, 
+                        normalizing pixel values, and converting to RGB format for model compatibility.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="about-card">
+                    <div class="text-center mb-3">
+                        <div class="step-number">2</div>
+                    </div>
+                    <h4 class="text-center">AI Analysis</h4>
+                    <p class="text-muted">
+                        The preprocessed image is fed into the selected deep learning model, 
+                        which analyzes patterns and features to detect tumor presence.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="about-card">
+                    <div class="text-center mb-3">
+                        <div class="step-number">3</div>
+                    </div>
+                    <h4 class="text-center">Result Generation</h4>
+                    <p class="text-muted">
+                        The model outputs a prediction with confidence score, which is then 
+                        visualized and presented in an easy-to-understand format.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dataset Info -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="display-6 fw-bold mb-4">Dataset Information</h2>
+                <p class="lead">
+                    Our models are trained on a carefully curated dataset of brain MRI images from Kaggle.
+                </p>
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <i class="fas fa-database text-primary me-2"></i>
+                        <strong>Total Images:</strong> 253 MRI scans
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-chart-pie text-primary me-2"></i>
+                        <strong>Training Set:</strong> 161 images (64%)
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-check-double text-primary me-2"></i>
+                        <strong>Validation Set:</strong> 41 images (16%)
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-flask text-primary me-2"></i>
+                        <strong>Test Set:</strong> 51 images (20%)
+                    </li>
+                    <li class="mb-3">
+                        <i class="fas fa-image text-primary me-2"></i>
+                        <strong>Image Size:</strong> 224x224 pixels
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-card">
+                    <h4 class="mb-4 text-center">Model Performance Metrics</h4>
+                    <table class="table table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Metric</th>
+                                <th>VGG16</th>
+                                <th>Custom CNN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Accuracy</strong></td>
+                                <td><span class="badge bg-success">84.31%</span></td>
+                                <td><span class="badge bg-warning text-dark">66.67%</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Precision</strong></td>
+                                <td><span class="badge bg-success">81.08%</span></td>
+                                <td><span class="badge bg-warning text-dark">73.33%</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Recall</strong></td>
+                                <td><span class="badge bg-success">96.77%</span></td>
+                                <td><span class="badge bg-warning text-dark">70.97%</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>F1-Score</strong></td>
+                                <td><span class="badge bg-success">88.24%</span></td>
+                                <td><span class="badge bg-warning text-dark">72.13%</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team / Contact -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">AI&DS FINAL YEAR PROJECT</h2>
+            <p class="lead text-muted">TPCT'S COLLEGE OF ENGINEERING , DHARASHIV 413501</p>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="about-card text-center">
+                    <div class="mb-4">
+                        <i class="fas fa-code fa-4x text-primary"></i>
+                    </div>
+                    <h3 class="mb-3">Submitted By</h3>
+                    <p class="text-muted mb-4">
+                        Vyankatesh Dattatray Shinde ( 2221301995023 / 21 ) </br>
+                        Suraj Shatrugan Hajgude ( 2221301995027 / 25 ) </br>
+                        Harshikesh Shankar Bhondave ( 2221301995020 / 19 ) </br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-4">Ready to Try?</h2>
+        <p class="lead mb-4">Upload your brain MRI image and get instant AI-powered analysis</p>
+        <a href="/predict" class="btn btn-light btn-lg">
+            <i class="fas fa-upload me-2"></i>Upload MRI Image
+        </a>
+    </div>
+</section>
+{% endblock %}

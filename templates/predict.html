@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Predict - Brain Tumor Detection{% endblock %}
+
+{% block content %}
+<!-- Prediction Section -->
+<section class="prediction-section">
+    <div class="container">
+        <div class="text-center mb-5 pt-5">
+            <h1 class="display-4 fw-bold">
+                <i class="fas fa-brain text-primary me-3"></i>
+                MRI Analysis
+            </h1>
+            <p class="lead text-muted">Upload a brain MRI scan for instant AI-powered tumor detection</p>
+        </div>
+        
+        <div class="row g-4 mb-5">
+            <!-- Upload Section -->
+            <div class="col-lg-6">
+                <div id="uploadArea" class="upload-area">
+                    <input type="file" id="imageUpload" accept="image/*" hidden>
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <h4 class="mt-3">Drag & Drop MRI Image</h4>
+                    <p class="text-muted mb-3">or click to browse</p>
+                    <button class="btn btn-primary btn-lg" onclick="document.getElementById('imageUpload').click()">
+                        <i class="fas fa-folder-open me-2"></i>Choose File
+                    </button>
+                    <p class="text-muted small mt-3">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Supported formats: JPG, JPEG, PNG (Max 16MB)
+                    </p>
+                </div>
+                <div id="imagePreview" class="mt-3"></div>
+            </div>
+            
+            <!-- Configuration Section -->
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">
+                            <i class="fas fa-cog text-primary me-2"></i>
+                            Analysis Configuration
+                        </h4>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">
+                                <i class="fas fa-robot me-2"></i>Select AI Model
+                            </label>
+                            <select class="form-select form-select-lg" id="modelSelect">
+                                {% for key, info in models.items() %}
+                                <option value="{{ key }}" {% if key == 'VGG16' %}selected{% endif %}>
+                                    {{ info.name }} - {{ (info.accuracy * 100)|round(2) }}% Accuracy
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <small class="text-muted">
+                                <i class="fas fa-lightbulb me-1"></i>
+                                Recommended: VGG16 for best accuracy
+                            </small>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-3">Model Information</h6>
+                            <div id="modelInfo" class="p-3 bg-light rounded">
+                                <p class="mb-2">
+                                    <strong>Description:</strong> 
+                                    <span id="modelDescription">{{ models['VGG16'].description }}</span>
+                                </p>
+                                <p class="mb-0">
+                                    <strong>Accuracy:</strong> 
+                                    <span id="modelAccuracy" class="badge bg-success">
+                                        {{ (models['VGG16'].accuracy * 100)|round(2) }}%
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <button id="predictBtn" class="btn btn-primary btn-lg w-100" disabled>
+                            <i class="fas fa-brain me-2"></i>Analyze MRI Scan
+                        </button>
+                        
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-lock me-1"></i>
+                                Your images are processed securely and not stored
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Loading Spinner -->
+        <div id="spinnerContainer" class="spinner-container">
+            <div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h4 class="mt-3"><i class="fas fa-brain fa-beat me-2"></i>Analyzing MRI Image...</h4>
+            <p class="text-muted">Please wait while our AI model processes your image</p>
+        </div>
+        
+        <!-- Results Section -->
+        <div id="resultSection" style="display:none;"></div>
+        
+        <!-- Instructions -->
+        <div class="row g-4 mt-5">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">
+                            <i class="fas fa-question-circle text-primary me-2"></i>
+                            How to Use
+                        </h4>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-number me-3">1</div>
+                                    <div>
+                                        <h6>Upload Image</h6>
+                                        <p class="text-muted small mb-0">
+                                            Drag and drop or click to upload a brain MRI scan image
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-number me-3">2</div>
+                                    <div>
+                                        <h6>Select Model</h6>
+                                        <p class="text-muted small mb-0">
+                                            Choose an AI model (VGG16 recommended for best results)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-start">
+                                    <div class="step-number me-3">3</div>
+                                    <div>
+                                        <h6>Get Results</h6>
+                                        <p class="text-muted small mb-0">
+                                            Click analyze and receive instant prediction with confidence score
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Model information data
+const modelInfo = {
+    {% for key, info in models.items() %}
+    "{{ key }}": {
+        description: "{{ info.description }}",
+        accuracy: {{ info.accuracy }}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+};
+
+// Update model info when selection changes
+document.getElementById('modelSelect').addEventListener('change', function() {
+    const selectedModel = this.value;
+    const info = modelInfo[selectedModel];
+    
+    document.getElementById('modelDescription').textContent = info.description;
+    document.getElementById('modelAccuracy').textContent = (info.accuracy * 100).toFixed(2) + '%';
+});
+</script>
+{% endblock %}

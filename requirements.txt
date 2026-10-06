@@ -1,0 +1,9 @@
+Flask==3.0.0
+tensorflow==2.20.0rc0
+keras==3.5.0
+opencv-python==4.8.1.78
+numpy==1.26.4
+pandas==2.1.4
+matplotlib==3.8.2
+Pillow==10.1.0
+werkzeug==3.0.1

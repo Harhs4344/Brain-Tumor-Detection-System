@@ -1,0 +1,500 @@
+{% extends "base.html" %}
+
+{% block title %}Visualization - Brain Tumor Detection{% endblock %}
+
+{% block content %}
+<!-- Visualization Hero -->
+<section class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="text-center text-white py-5">
+            <h1 class="display-4 fw-bold mb-3">Model Performance Visualization</h1>
+            <p class="lead">Comprehensive analysis and comparison of AI models</p>
+        </div>
+    </div>
+</section>
+
+<!-- Charts Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4 mb-5">
+            <!-- Accuracy Chart -->
+            <div class="col-lg-6">
+                <div class="chart-container">
+                    <h4 class="mb-4">
+                        <i class="fas fa-chart-bar text-primary me-2"></i>
+                        Model Accuracy Comparison
+                    </h4>
+                    <canvas id="accuracyChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Metrics Comparison -->
+            <div class="col-lg-6">
+                <div class="chart-container">
+                    <h4 class="mb-4">
+                        <i class="fas fa-chart-line text-success me-2"></i>
+                        Performance Metrics
+                    </h4>
+                    <canvas id="metricsChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-4 mb-5">
+            <!-- Radar Chart -->
+            <div class="col-lg-6">
+                <div class="chart-container">
+                    <h4 class="mb-4">
+                        <i class="fas fa-chart-area text-info me-2"></i>
+                        Model Comparison Radar
+                    </h4>
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Precision-Recall -->
+            <div class="col-lg-6">
+                <div class="chart-container">
+                    <h4 class="mb-4">
+                        <i class="fas fa-bullseye text-warning me-2"></i>
+                        Precision vs Recall
+                    </h4>
+                    <canvas id="precisionRecallChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison Table -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Detailed Model Comparison</h2>
+            <p class="lead text-muted">Complete performance metrics for all trained models</p>
+        </div>
+        
+        <div class="comparison-table">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-robot me-2"></i>Model</th>
+                        <th><i class="fas fa-bullseye me-2"></i>Accuracy</th>
+                        <th><i class="fas fa-crosshairs me-2"></i>Precision</th>
+                        <th><i class="fas fa-sync me-2"></i>Recall</th>
+                        <th><i class="fas fa-chart-line me-2"></i>F1-Score</th>
+                        <th><i class="fas fa-star me-2"></i>Rating</th>
+                    </tr>
+                </thead>
+                <tbody id="comparisonTableBody">
+                    {% if comparison_data %}
+                        {% for model in comparison_data %}
+                        <tr>
+                            <td><strong>{{ model.model }}</strong></td>
+                            <td>
+                                <span class="badge {% if model.accuracy > 0.8 %}bg-success{% elif model.accuracy > 0.7 %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+                                    {{ (model.accuracy * 100)|round(2) }}%
+                                </span>
+                            </td>
+                            <td>{{ (model.precision * 100)|round(2) }}%</td>
+                            <td>{{ (model.recall * 100)|round(2) }}%</td>
+                            <td>{{ (model.f1_score * 100)|round(2) }}%</td>
+                            <td>
+                                {% set rating = (model.accuracy * 5)|round(0)|int %}
+                                {% for i in range(rating) %}
+                                    <i class="fas fa-star text-warning"></i>
+                                {% endfor %}
+                                {% for i in range(5 - rating) %}
+                                    <i class="far fa-star text-warning"></i>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">Loading comparison data...</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- Model Details Cards -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Model Architectures</h2>
+            <p class="lead text-muted">Technical details of each AI model</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for model_key, model_info in models.items() %}
+            <div class="col-md-6">
+                <div class="about-card h-100">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-brain fa-2x text-primary me-3"></i>
+                        <div>
+                            <h4 class="mb-0">{{ model_info.name }}</h4>
+                            <small class="text-muted">{{ model_info.description }}</small>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Accuracy</span>
+                            <strong>{{ (model_info.accuracy * 100)|round(2) }}%</strong>
+                        </div>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar bg-success" role="progressbar" 
+                                 style="width: {{ (model_info.accuracy * 100)|round(2) }}%">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row g-2 text-center">
+                        <div class="col-6">
+                            <div class="p-2 bg-light rounded">
+                                <small class="text-muted d-block">Status</small>
+                                <strong class="text-success">Loaded</strong>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2 bg-light rounded">
+                                <small class="text-muted d-block">Type</small>
+                                <strong>Deep Learning</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Training Information -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="display-6 fw-bold mb-4">Training Overview</h2>
+                <p class="lead mb-4">
+                    Our models were trained using state-of-the-art techniques and best practices in deep learning.
+                </p>
+                
+                <div class="about-card mb-3">
+                    <h5><i class="fas fa-database text-primary me-2"></i>Dataset Split</h5>
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h3 class="text-primary mb-0">64%</h3>
+                            <small class="text-muted">Training</small>
+                        </div>
+                        <div class="col-4">
+                            <h3 class="text-primary mb-0">16%</h3>
+                            <small class="text-muted">Validation</small>
+                        </div>
+                        <div class="col-4">
+                            <h3 class="text-primary mb-0">20%</h3>
+                            <small class="text-muted">Testing</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="about-card">
+                    <h5 class="mb-4"><i class="fas fa-cogs text-primary me-2"></i>Training Configuration</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Optimizer:</strong> Adam with learning rate 0.001
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Loss Function:</strong> Binary Crossentropy
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Batch Size:</strong> 32 images per batch
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Epochs:</strong> Up to 50 with early stopping
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Data Augmentation:</strong> Rotation, shift, zoom, flip
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Image Size:</strong> 224 x 224 pixels
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Key Insights -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold">Key Insights</h2>
+            <p class="lead text-muted">Important findings from our model analysis</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="about-card text-center">
+                    <i class="fas fa-trophy fa-3x text-warning mb-3"></i>
+                    <h4>Best Model</h4>
+                    <p class="text-muted mb-0">VGG16 achieved the highest accuracy of 84.31%</p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="about-card text-center">
+                    <i class="fas fa-bullseye fa-3x text-success mb-3"></i>
+                    <h4>High Recall</h4>
+                    <p class="text-muted mb-0">96.77% recall ensures minimal false negatives</p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="about-card text-center">
+                    <i class="fas fa-balance-scale fa-3x text-info mb-3"></i>
+                    <h4>Balanced</h4>
+                    <p class="text-muted mb-0">F1-Score of 88.24% shows balanced performance</p>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="about-card text-center">
+                    <i class="fas fa-bolt fa-3x text-danger mb-3"></i>
+                    <h4>Fast</h4>
+                    <p class="text-muted mb-0">Real-time predictions in seconds</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-4">Try Our Best Model</h2>
+        <p class="lead mb-4">Use VGG16 for the most accurate brain tumor detection</p>
+        <a href="/predict" class="btn btn-light btn-lg">
+            <i class="fas fa-upload me-2"></i>Upload MRI Image
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Load and display charts when comparison data is available
+document.addEventListener('DOMContentLoaded', function() {
+    loadVisualizationCharts();
+});
+
+async function loadVisualizationCharts() {
+    try {
+        const response = await fetch('/api/comparison');
+        const data = await response.json();
+        
+        if (!data.error) {
+            createAllCharts(data);
+        }
+    } catch (error) {
+        console.error('Error loading charts:', error);
+    }
+}
+
+function createAllCharts(data) {
+    const models = data.map(d => d.model);
+    const accuracy = data.map(d => d.accuracy * 100);
+    const precision = data.map(d => d.precision * 100);
+    const recall = data.map(d => d.recall * 100);
+    const f1Score = data.map(d => d.f1_score * 100);
+    
+    // Accuracy Chart
+    new Chart(document.getElementById('accuracyChart'), {
+        type: 'bar',
+        data: {
+            labels: models,
+            datasets: [{
+                label: 'Accuracy (%)',
+                data: accuracy,
+                backgroundColor: 'rgba(79, 70, 229, 0.8)',
+                borderColor: 'rgba(79, 70, 229, 1)',
+                borderWidth: 2,
+                borderRadius: 10
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: true },
+                tooltip: { enabled: true }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+    
+    // Metrics Chart
+    new Chart(document.getElementById('metricsChart'), {
+        type: 'line',
+        data: {
+            labels: models,
+            datasets: [
+                {
+                    label: 'Accuracy',
+                    data: accuracy,
+                    borderColor: 'rgb(79, 70, 229)',
+                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                    tension: 0.4
+                },
+                {
+                    label: 'Precision',
+                    data: precision,
+                    borderColor: 'rgb(16, 185, 129)',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4
+                },
+                {
+                    label: 'Recall',
+                    data: recall,
+                    borderColor: 'rgb(245, 158, 11)',
+                    backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                    tension: 0.4
+                },
+                {
+                    label: 'F1-Score',
+                    data: f1Score,
+                    borderColor: 'rgb(239, 68, 68)',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: true }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+    
+    // Radar Chart
+    new Chart(document.getElementById('comparisonChart'), {
+        type: 'radar',
+        data: {
+            labels: ['Accuracy', 'Precision', 'Recall', 'F1-Score'],
+            datasets: data.map((model, index) => {
+                const colors = [
+                    'rgba(79, 70, 229, 0.6)',
+                    'rgba(16, 185, 129, 0.6)',
+                    'rgba(245, 158, 11, 0.6)',
+                    'rgba(239, 68, 68, 0.6)'
+                ];
+                return {
+                    label: model.model,
+                    data: [
+                        model.accuracy * 100,
+                        model.precision * 100,
+                        model.recall * 100,
+                        model.f1_score * 100
+                    ],
+                    backgroundColor: colors[index % colors.length],
+                    borderColor: colors[index % colors.length].replace('0.6', '1'),
+                    borderWidth: 2
+                };
+            })
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+    
+    // Precision vs Recall Scatter
+    new Chart(document.getElementById('precisionRecallChart'), {
+        type: 'scatter',
+        data: {
+            datasets: data.map((model, index) => {
+                const colors = [
+                    'rgb(79, 70, 229)',
+                    'rgb(16, 185, 129)',
+                    'rgb(245, 158, 11)',
+                    'rgb(239, 68, 68)'
+                ];
+                return {
+                    label: model.model,
+                    data: [{
+                        x: model.precision * 100,
+                        y: model.recall * 100
+                    }],
+                    backgroundColor: colors[index % colors.length],
+                    borderColor: colors[index % colors.length],
+                    pointRadius: 10,
+                    pointHoverRadius: 15
+                };
+            })
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { display: true }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Precision (%)'
+                    },
+                    min: 60,
+                    max: 100
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Recall (%)'
+                    },
+                    min: 60,
+                    max: 100
+                }
+            }
+        }
+    });
+}
+</script>
+{% endblock %}

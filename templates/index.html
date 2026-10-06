@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Brain Tumor Detection{% endblock %}
+
+{% block content %}
+
+<style>
+    text-muted {
+        color: #b0b6bb !important;
+    }
+</style>
+
+
+<!-- Hero Section -->
+<section class="hero-section" style=" height: 100vh; margin-top:-50px; padding-top: 150px; background: linear-gradient(135deg, #000000 0%, #2e59ae 100%);">
+    <div class="container">
+        <div class="row align-items-center ">
+            <div class="col-lg-6">
+                <div class="hero-content">
+                    <span class="badge mb-3 px-3 py-2" style="background-color: #636ff1; color: white;">
+                        <i class="fas fa-star me-2"></i>AI-Powered Detection
+                    </span>
+                    <h1 class="display-3 fw-bold mb-4">
+                        Brain Tumor <span style="color: #4f46e5;">Detection</span>
+                    </h1>
+                    <p class="lead mb-4" style="color: #bec0c4;">
+                        Advanced deep learning models for accurate brain tumor detection from MRI images. 
+                        Fast, reliable, and easy to use.
+                    </p>
+                    <div class="hero-stats mb-4">
+                        <div class="row g-3">
+                            <div class="col-4">
+                                <div class="stat-card" style="background-color: #f3f4f6; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                                    <h3 style="color: #4f46e5; margin-bottom: 0;">4</h3>
+                                    <small style="color: #6b7280;">AI Models</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-card" style="background-color: #f3f4f6; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                                    <h3 style="color: #4f46e5; margin-bottom: 0;">84%</h3>
+                                    <small style="color: #6b7280;">Accuracy</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-card" style="background-color: #f3f4f6; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                                    <h3 style="color: #4f46e5; margin-bottom: 0;">Fast</h3>
+                                    <small style="color: #6b7280;">Results</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="/predict" class="btn btn-lg me-3" style="background-color: #4f46e5; color: white; border: none; transition: all 0.3s ease;">
+                            <i class="fas fa-upload me-2"></i>Upload MRI
+                        </a>
+                        <a href="/about" class="btn btn-lg" style="background-color: transparent; color: #4f46e5; border: 2px solid #4f46e5; transition: all 0.3s ease;">
+                            <i class="fas fa-info-circle me-2"></i>Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image text-center">
+                    <div class="floating-card" style="background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); border-radius: 20px; padding: 40px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); display: inline-block; animation: float 3s ease-in-out infinite;">
+                        <i class="fas fa-brain fa-10x" style="color: white;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+</style>
+
+<!-- Features Section -->
+<section class="features-section py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Key Features</h2>
+            <p class="lead text-muted">State-of-the-art technology for medical image analysis</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="mt-3">Multiple AI Models</h4>
+                    <p class="text-muted">
+                        Choose from VGG16, ResNet50, MobileNetV2, and custom CNN models for accurate predictions.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line fa-3x text-success"></i>
+                    </div>
+                    <h4 class="mt-3">High Accuracy</h4>
+                    <p class="text-muted">
+                        Achieve up to 84% accuracy with our best VGG16 transfer learning model.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt fa-3x text-info"></i>
+                    </div>
+                    <h4 class="mt-3">Fast Results</h4>
+                    <p class="text-muted">
+                        Get instant predictions with confidence scores and detailed visualizations.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye fa-3x text-warning"></i>
+                    </div>
+                    <h4 class="mt-3">Visual Analysis</h4>
+                    <p class="text-muted">
+                        Interactive visualizations and detailed analysis of MRI images and results.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt fa-3x text-danger"></i>
+                    </div>
+                    <h4 class="mt-3">Secure & Private</h4>
+                    <p class="text-muted">
+                        Your medical images are processed securely and not stored permanently.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop-medical fa-3x text-purple"></i>
+                    </div>
+                    <h4 class="mt-3">Easy to Use</h4>
+                    <p class="text-muted">
+                        Simple interface - just upload your MRI image and get instant results.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">How It Works</h2>
+            <p class="lead text-muted">Three simple steps to get your results</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4 class="mt-3">Upload MRI Image</h4>
+                    <p class="text-muted">
+                        Upload a brain MRI image in JPG, JPEG, or PNG format.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4 class="mt-3">Select Model</h4>
+                    <p class="text-muted">
+                        Choose an AI model (we recommend VGG16 for best accuracy).
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4 class="mt-3">Get Results</h4>
+                    <p class="text-muted">
+                        Receive instant prediction with confidence score and visualization.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <a href="/predict" class="btn btn-primary btn-lg">
+                <i class="fas fa-rocket me-2"></i>Get Started Now
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Model Comparison Preview -->
+<section class="models-section py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Our AI Models</h2>
+            <p class="lead text-muted">Trained on brain MRI images with state-of-the-art architectures</p>
+        </div>
+        <div class="row g-4">
+            {% for model_key, model_info in models.items() %}
+            <div class="col-md-6 col-lg-3">
+                <div class="model-card">
+                    <h5 class="text-primary">{{ model_info.name }}</h5>
+                    <p class="text-muted small">{{ model_info.description }}</p>
+                    <div class="model-accuracy">
+                        <span class="badge bg-success">{{ (model_info.accuracy * 100)|round(2) }}% Accuracy</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="/visualization" class="btn btn-outline-primary">
+                <i class="fas fa-chart-bar me-2"></i>View Detailed Comparison
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5 bg-primar text-white" style="    background-color: rgb(35 42 53) !important;">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-4">Ready to Analyze Your MRI?</h2>
+        <p class="lead mb-4">Upload your brain MRI image and get instant AI-powered analysis</p>
+        <a href="/predict" class="btn btn-light btn-lg">
+            <i class="fas fa-upload me-2"></i>Upload MRI Image
+        </a>
+    </div>
+</section>
+{% endblock %}

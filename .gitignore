@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+static/uploads/*
+!static/uploads/.gitkeep
+.DS_Store
+venv/
+.venv/
+models/*.h5
+models/*.pkl
+dataset/
