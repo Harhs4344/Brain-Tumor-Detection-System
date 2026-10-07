@@ -10,9 +10,10 @@ import json
 from datetime import datetime
 import base64
 from io import BytesIO
-from PIL import Image
+# pyrefly: ignore [missing-import]
 import matplotlib
 matplotlib.use('Agg')
+# pyrefly: ignore [missing-import]
 import matplotlib.pyplot as plt
 
 # Initialize Flask app
@@ -476,21 +477,17 @@ def server_error(e):
     """500 error handler"""
     return jsonify({'error': 'Internal server error'}), 500
 
+# Load models automatically on app startup (for WSGI/Gunicorn and local servers)
+print("=" * 80)
+print("BRAIN TUMOR DETECTION - Web Application")
+print("Loading models...")
+print("=" * 80)
+load_models()
+
 if __name__ == '__main__':
-    print("=" * 80)
-    print("BRAIN TUMOR DETECTION - Web Application")
-    print("Final Year AI&DS Project")
-    print("=" * 80)
-    print("\\nLoading models...")
-    
-    # Load models
-    load_models()
-    
-    print("\\n" + "=" * 80)
-    print("Starting Flask server...")
-    print("=" * 80)
-    print("\\nAccess the application at: http://localhost:5000")
-    print("Press CTRL+C to quit\\n")
+    print("\nStarting Flask development server...")
+    print("Access the application at: http://localhost:5000")
+    print("Press CTRL+C to quit\n")
     
     # Run app
     app.run(debug=True, host='0.0.0.0', port=5000)
