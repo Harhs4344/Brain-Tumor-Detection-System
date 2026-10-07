@@ -158,12 +158,55 @@ def _load_mobilenet_custom(h5_path):
                     model.get_layer(layer_name).set_weights([g['kernel'][()], g['bias'][()]])
     return model
 
+def _load_custom_cnn(h5_path):
+    model = keras.models.Sequential([
+        keras.layers.Input(shape=(224, 224, 3)),
+        keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same'),
+        keras.layers.BatchNormalization(),
+        keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same'),
+        keras.layers.BatchNormalization(),
+        keras.layers.MaxPooling2D((2, 2)),
+        keras.layers.Dropout(0.25),
+        
+        keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+        keras.layers.BatchNormalization(),
+        keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+        keras.layers.BatchNormalization(),
+        keras.layers.MaxPooling2D((2, 2)),
+        keras.layers.Dropout(0.25),
+        
+        keras.layers.Conv2D(128, (3, 3), activation='relu', padding='same'),
+        keras.layers.BatchNormalization(),
+        keras.layers.Conv2D(128, (3, 3), activation='relu', padding='same'),
+        keras.layers.BatchNormalization(),
+        keras.layers.MaxPooling2D((2, 2)),
+        keras.layers.Dropout(0.25),
+        
+        keras.layers.Conv2D(256, (3, 3), activation='relu', padding='same'),
+        keras.layers.BatchNormalization(),
+        keras.layers.Conv2D(256, (3, 3), activation='relu', padding='same'),
+        keras.layers.BatchNormalization(),
+        keras.layers.MaxPooling2D((2, 2)),
+        keras.layers.Dropout(0.25),
+        
+        keras.layers.Flatten(),
+        keras.layers.Dense(512, activation='relu'),
+        keras.layers.BatchNormalization(),
+        keras.layers.Dropout(0.5),
+        keras.layers.Dense(256, activation='relu'),
+        keras.layers.BatchNormalization(),
+        keras.layers.Dropout(0.5),
+        keras.layers.Dense(1, activation='sigmoid')
+    ], name='Custom_CNN')
+    model.load_weights(h5_path)
+    return model
+
 import urllib.request
 
 MODEL_DOWNLOAD_URLS = {
     'final_vgg16_model.h5': 'https://github.com/Harhs4344/Brain-Tumor-Detection-System/releases/download/v1.0.0/final_vgg16_model.h5',
     'final_resnet50_model.h5': 'https://github.com/Harhs4344/Brain-Tumor-Detection-System/releases/download/v1.0.0/final_resnet50_model.h5',
-    'final_mobilenet_model.h5': 'https://github.com/Harhs4344/Brain-Tumor-Detection-System/releases/download/v1.0.0/final_mobilenet_model.h5',
+    'final_mobilenet_model.h5': 'https://raw.githubusercontent.com/Harhs4344/Brain-Tumor-Detection-System/main/models/final_mobilenet_model.h5',
     'final_custom_cnn_model.h5': 'https://github.com/Harhs4344/Brain-Tumor-Detection-System/releases/download/v1.0.0/final_custom_cnn_model.h5',
 }
 
@@ -201,6 +244,8 @@ def load_models():
                         MODELS[model_name] = _load_resnet50_custom(model_path)
                     elif model_name == 'MobileNetV2':
                         MODELS[model_name] = _load_mobilenet_custom(model_path)
+                    elif model_name == 'Custom CNN':
+                        MODELS[model_name] = _load_custom_cnn(model_path)
                     else:
                         MODELS[model_name] = load_model(model_path)
                     print(f"[OK] {model_name} model loaded")
@@ -240,15 +285,21 @@ def preprocess_image(image_path):
 def predict_tumor(image_path, model_name='VGG16'):
     """Predict brain tumor from MRI image"""
     try:
-        # Check if model exists
-        if model_name not in MODELS:
-            raise ValueError(f"Model {model_name} not loaded")
+        # Check if model exists or fall back to an available model
+        actual_model_name = model_name
+        if actual_model_name not in MODELS:
+            if len(MODELS) > 0:
+                # Fallback to the first loaded model (e.g. MobileNetV2)
+                actual_model_name = list(MODELS.keys())[0]
+                print(f"[INFO] Model '{model_name}' not loaded. Falling back to '{actual_model_name}'.")
+            else:
+                raise ValueError("No models are currently loaded on the server. Please ensure model .h5 files exist in the 'models/' directory.")
         
         # Preprocess image
         processed_img = preprocess_image(image_path)
         
         # Get model
-        model = MODELS[model_name]
+        model = MODELS[actual_model_name]
         
         # Make prediction
         prediction_prob = model.predict(processed_img, verbose=0)[0][0]
@@ -258,7 +309,8 @@ def predict_tumor(image_path, model_name='VGG16'):
         confidence = prediction_prob if has_tumor else (1 - prediction_prob)
         
         result = {
-            'model': model_name,
+            'model': actual_model_name,
+            'requested_model': model_name,
             'has_tumor': bool(has_tumor),
             'prediction': 'Tumor Detected' if has_tumor else 'No Tumor Detected',
             'confidence': float(confidence * 100),
