@@ -120,7 +120,16 @@ if (document.getElementById('imageUpload')) {
                 body: formData
             });
             
-            const result = await response.json();
+            const responseText = await response.text();
+            let result;
+            try {
+                result = JSON.parse(responseText);
+            } catch (e) {
+                if (!response.ok) {
+                    throw new Error(`Server status ${response.status}: ${response.statusText || 'The server is restarting or busy. Please try again in a few seconds.'}`);
+                }
+                throw new Error('Invalid JSON response received from server.');
+            }
             
             if (response.ok) {
                 displayResult(result);

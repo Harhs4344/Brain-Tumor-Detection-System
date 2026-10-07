@@ -48,14 +48,14 @@
                             </label>
                             <select class="form-select form-select-lg" id="modelSelect">
                                 {% for key, info in models.items() %}
-                                <option value="{{ key }}" {% if key == 'VGG16' %}selected{% endif %}>
+                                <option value="{{ key }}" {% if key == 'MobileNetV2' %}selected{% endif %}>
                                     {{ info.name }} - {{ (info.accuracy * 100)|round(2) }}% Accuracy
                                 </option>
                                 {% endfor %}
                             </select>
                             <small class="text-muted">
                                 <i class="fas fa-lightbulb me-1"></i>
-                                Recommended: VGG16 for best accuracy
+                                Recommended: MobileNetV2 for cloud predictions
                             </small>
                         </div>
                         
@@ -64,12 +64,12 @@
                             <div id="modelInfo" class="p-3 bg-light rounded">
                                 <p class="mb-2">
                                     <strong>Description:</strong> 
-                                    <span id="modelDescription">{{ models['VGG16'].description }}</span>
+                                    <span id="modelDescription">{{ models['MobileNetV2'].description }}</span>
                                 </p>
                                 <p class="mb-0">
                                     <strong>Accuracy:</strong> 
                                     <span id="modelAccuracy" class="badge bg-success">
-                                        {{ (models['VGG16'].accuracy * 100)|round(2) }}%
+                                        {{ (models['MobileNetV2'].accuracy * 100)|round(2) }}%
                                     </span>
                                 </p>
                             </div>
